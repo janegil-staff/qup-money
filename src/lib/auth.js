@@ -40,7 +40,7 @@ export const authOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.id = user._id;
+      if (user) token.id = user._id || user.id;
       return token;
     },
     async session({ session, token }) {

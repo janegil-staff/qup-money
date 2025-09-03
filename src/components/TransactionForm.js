@@ -1,62 +1,75 @@
 "use client";
 import { useState } from "react";
 
-export default function TransactionForm({ userId }) {
-  const [form, setForm] = useState({
-    type: "expense",
-    amount: "",
-    category: "",
-    note: "",
-  });
+export default function TransactionForm({ onAdd }) {
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [type, setType] = useState("expense");
+  const [category, setCategory] = useState("General");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await fetch("/api/transactions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...form,
-        amount: parseFloat(form.amount),
-        userId,
-      }),
-    });
-    setForm({ type: "expense", amount: "", category: "", note: "" });
+    const transaction = {
+      title,
+      amount: parseFloat(amount),
+      type,
+      category,
+      date: new Date().toISOString(),
+    };
+    onAdd(transaction);
+    setTitle("");
+    setAmount("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <select
-        value={form.type}
-        onChange={(e) => setForm({ ...form, type: e.target.value })}
-        className="border p-2 w-full"
-      >
-        <option value="income">Income</option>
-        <option value="expense">Expense</option>
-      </select>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-gray-900 p-4 rounded-lg text-white"
+    >
+      <h2 className="text-xl font-bold mb-4">Add Transaction</h2>
+
+      <input
+        type="text"
+        placeholder="Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        className="w-full mb-2 px-3 py-2 rounded bg-gray-800 border border-gray-700"
+        required
+      />
+
       <input
         type="number"
-        value={form.amount}
-        onChange={(e) => setForm({ ...form, amount: e.target.value })}
         placeholder="Amount"
-        className="border p-2 w-full"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        className="w-full mb-2 px-3 py-2 rounded bg-gray-800 border border-gray-700"
+        required
       />
-      <input
-        type="text"
-        value={form.category}
-        onChange={(e) => setForm({ ...form, category: e.target.value })}
-        placeholder="Category"
-        className="border p-2 w-full"
-      />
-      <input
-        type="text"
-        value={form.note}
-        onChange={(e) => setForm({ ...form, note: e.target.value })}
-        placeholder="Note"
-        className="border p-2 w-full"
-      />
+
+      <select
+        value={type}
+        onChange={(e) => setType(e.target.value)}
+        className="w-full mb-2 px-3 py-2 rounded bg-gray-800 border border-gray-700"
+      >
+        <option value="expense">Expense</option>
+        <option value="income">Income</option>
+      </select>
+
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        className="w-full mb-4 px-3 py-2 rounded bg-gray-800 border border-gray-700"
+      >
+        <option>General</option>
+        <option>Food</option>
+        <option>Rent</option>
+        <option>Travel</option>
+        <option>Entertainment</option>
+      </select>
+
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded"
       >
         Add Transaction
       </button>
