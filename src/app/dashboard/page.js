@@ -50,7 +50,6 @@ export default function Dashboard() {
           </li>
         ))}
       </ul>
-      <SignOutButton />
     </main>
   );
 }
