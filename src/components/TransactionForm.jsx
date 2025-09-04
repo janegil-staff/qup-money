@@ -1,6 +1,7 @@
 "use client";
+import { types } from "@/app/constants/transactionTypes";
 import { useState } from "react";
-
+import "./styles.css";
 export default function TransactionForm({ onAdd }) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
@@ -60,11 +61,9 @@ export default function TransactionForm({ onAdd }) {
         onChange={(e) => setCategory(e.target.value)}
         className="w-full mb-4 px-3 py-2 rounded bg-gray-800 border border-gray-700"
       >
-        <option>General</option>
-        <option>Food</option>
-        <option>Rent</option>
-        <option>Travel</option>
-        <option>Entertainment</option>
+        {types.map((type) => (
+          <option>{type}</option>
+        ))}
       </select>
 
       <button

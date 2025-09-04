@@ -1,13 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
-import TransactionForm from "@/components/TransactionForm";
-import { useSession } from "next-auth/react";
-import SignOutButton from "@/components/signOutButton";
+import BudgetOverview from "@/components/BudgetOverview";
+import TransactionList from "@/components/TransactionList";
+import BudgetCard from "@/components/BudgetCard";
+import FloatingButton from "@/components/FloatingButton";
+import SalaryProgressBar from "@/components/SalaryProgressBar";
+import { getSalaryCycleFrom19th } from "@/utils/SalaryCycleFrom19th";
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const [transactions, setTransactions] = useState([]);
-  const { data: session } = useSession();
-  const userId = session?.user?.id;
+  const { startDate, endDate } = getSalaryCycleFrom19th();
 
   useEffect(() => {
     fetch("/api/transactions")
@@ -15,41 +17,13 @@ export default function Dashboard() {
       .then(setTransactions);
   }, []);
 
-  const handleAdd = async (tx) => {
-    tx.userId = userId;
-
-    const res = await fetch("/api/transactions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(tx),
-    });
-    const newTx = await res.json();
-    setTransactions([newTx, ...transactions]);
-  };
-
   return (
-    <main className="p-6 bg-gray-950 text-white min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">Qup Money</h1>
-      <TransactionForm onAdd={handleAdd} />
-      <ul className="mt-6 space-y-2">
-        {transactions.map((tx) => (
-          <li
-            key={tx._id}
-            className="bg-gray-800 p-3 rounded flex justify-between"
-          >
-            <span>
-              {tx.title} ({tx.category})
-            </span>
-            <span
-              className={
-                tx.type === "income" ? "text-green-400" : "text-red-400"
-              }
-            >
-              {tx.type === "income" ? "+" : "-"}${tx.amount.toFixed(2)}
-            </span>
-          </li>
-        ))}
-      </ul>
+    <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+      <div className="my-10">
+        <BudgetCard transactions={transactions} />
+
+        <SalaryProgressBar startDate={startDate} endDate={endDate} />
+      </div>
     </main>
   );
 }

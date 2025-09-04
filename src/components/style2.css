@@ -1,0 +1,30 @@
+.money-card.minimal {
+  background-color: #1c1c1c;
+  color: #e0e0e0;
+  padding: 16px;
+  border-radius: 12px;
+  max-width: 280px;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  text-align: left;
+  border: 1px solid #2a2a2a;
+}
+
+.card-header {
+  font-size: 1em;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #a0a0a0;
+}
+
+.card-amount {
+  font-size: 2em;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.card-footer {
+  font-size: 0.8em;
+  color: #777;
+}

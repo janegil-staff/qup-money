@@ -1,8 +1,5 @@
-import Image from "next/image";
-
 export default function Home() {
-  
-  return (
-    <div>Hello world</div>
-  );
+  return <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+    Foobar
+  </main>;
 }
