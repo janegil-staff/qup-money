@@ -40,7 +40,7 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`bg-gray-950 text-white w-full md:w-64 p-6 space-y-4 transition-all duration-300 ${
+        className={`bg-gray-950 text-white w-full md:w-64 p-6 space-y-4 transition-all duration-300 pb-15 ${
           open ? "block" : "hidden"
         } md:block`}
       >

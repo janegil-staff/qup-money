@@ -1,6 +1,7 @@
 // BudgetCard.js
 import React from "react";
 import "./style2.css";
+import { FindAndFormateLatestDate } from "@/utils/getLAtestDatAndFormat";
 
 function calculateTotalsByType(data) {
   return data.reduce((acc, item) => {
@@ -10,13 +11,14 @@ function calculateTotalsByType(data) {
 }
 
 export default function BudgetCard({ transactions }) {
-  const { expense, income } = calculateTotalsByType(transactions);
-  const sum = expense - income;
+  const { income, expense  } = calculateTotalsByType(transactions);
+  const sum = income - expense;
+  const date = FindAndFormateLatestDate(transactions);
   return (
     <div class="money-card minimal mx-auto mb-20">
       <div class="card-header">Total Balance</div>
       <div class="card-amount">{sum} NOK</div>
-      <div class="card-footer">Updated: 04 Sep 2025</div>
+      <div class="card-footer">Updated: {date}</div>
     </div>
   );
 }

@@ -1,7 +1,8 @@
 "use client";
-import { types } from "@/app/constants/transactionTypes";
+
 import { useState } from "react";
 import "./styles.css";
+import { types } from "@/constants/transactionTypes";
 export default function TransactionForm({ onAdd }) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");

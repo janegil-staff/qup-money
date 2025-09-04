@@ -3,9 +3,9 @@ import { getCurrentSalaryCycle } from "@/utils/getSalaryCycle";
 import { getSalaryProgress } from "@/utils/salaryProgress";
 
 export default function SalaryProgressBar() {
-  const { startDate, endDate } = getCurrentSalaryCycle();
+  const { startDate, endDate } = getCurrentSalaryCycle(19);
   const { percent, daysRemaining } = getSalaryProgress(startDate, endDate);
-
+   
   return (
     <div>
       <h3>💰 Salary Progress</h3>

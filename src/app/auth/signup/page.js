@@ -38,7 +38,7 @@ export default function SignUpPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white flex items-center justify-center px-4">
-      <div className="w-full max-w-md space-y-8 bg-gray-950 p-8 rounded-xl shadow-xl border border-gray-800">
+      <div className="w-full max-w-md space-y-8 bg-gray-950 p-8 rounded-xl shadow-xl border border-gray-800 relative">
         <h1 className="text-3xl font-bold text-center">Create Account</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
