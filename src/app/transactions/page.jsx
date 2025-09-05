@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import TransactionForm from "@/components/TransactionForm";
 import { useSession } from "next-auth/react";
-import TransactionList from "@/components/TransactionList";
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState([]);
