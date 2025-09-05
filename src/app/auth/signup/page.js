@@ -28,7 +28,7 @@ export default function SignUpPage() {
     });
 
     if (res.ok) {
-      toast.success("Sign in scuccsess");
+      toast.success("Sign up scucsess");
       router.push("/dashboard");
     } else {
       const data = await res.json();

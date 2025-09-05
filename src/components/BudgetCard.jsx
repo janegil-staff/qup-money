@@ -11,9 +11,28 @@ function calculateTotalsByType(data) {
 }
 
 export default function BudgetCard({ transactions }) {
-  const { income, expense  } = calculateTotalsByType(transactions);
-  const sum = income - expense;
+  const { income, expense } = calculateTotalsByType(transactions);
+  let sum = 0;
+  if (income && !expense) {
+    sum = income;
+  } else if (!income && expense) {
+    sum = expense;
+  } else if (income && expense) {
+    sum = income - expense;
+  }
+
   const date = FindAndFormateLatestDate(transactions);
+  if (!date) {
+    return (
+      <>
+        <div class="money-card minimal mx-auto mb-20">
+          <div class="card-header">Total Balance</div>
+          <div class="card-amount">0 NOK</div>
+          <div class="card-footer">No transactions</div>
+        </div>
+      </>
+    );
+  }
   return (
     <div class="money-card minimal mx-auto mb-20">
       <div class="card-header">Total Balance</div>

@@ -2,8 +2,12 @@
 import { useState, useEffect } from "react";
 import TransactionForm from "@/components/TransactionForm";
 import { useSession } from "next-auth/react";
+import { Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
+  const router = useRouter();
   const [transactions, setTransactions] = useState([]);
   const { data: session } = useSession();
   const userId = session?.user?.id;
@@ -36,6 +40,27 @@ export default function Dashboard() {
     setTransactions([newTx, ...transactions]);
   };
 
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("Delete this transaction?");
+    if (!confirmed) return;
+    try {
+      const res = await fetch(`/api/transactions/${id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        window.location.reload();
+        toast.success("Transaction deleted");
+      } else {
+        const error = await res.json();
+        toast.error(error.error || "Failed to delete");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong");
+    }
+  };
+
   return (
     <main className="p-6 bg-gray-950 text-white min-h-screen">
       <h1 className="text-3xl font-bold mb-6">Qup Money</h1>
@@ -56,6 +81,13 @@ export default function Dashboard() {
             >
               {tx.type === "income" ? "+" : "-"}${tx.amount.toFixed(2)}
             </span>
+            <button
+              onClick={() => handleDelete(tx._id)}
+              className="text-[#ef5350] hover:text-red-400"
+              title="Delete"
+            >
+              <Trash2 size={18} />
+            </button>
           </li>
         ))}
       </ul>

@@ -5,6 +5,10 @@ const UserSchema = new mongoose.Schema({
   password: String,
   name: String,
   image: String,
+  payday: {
+    type: Number,
+    default: 19
+  }
 });
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);
