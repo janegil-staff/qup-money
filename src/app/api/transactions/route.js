@@ -3,7 +3,7 @@ import Transaction from "@/models/Transaction";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 
-export async function GET(req) {
+export async function GET(request) {
   await connectToDB();
   const session = await getServerSession(authOptions);
 
@@ -12,10 +12,10 @@ export async function GET(req) {
   }
 
   const userId = session.user.id;
-  const transactions = await Transaction.find({userId }).sort({
+  const transactions = await Transaction.find({ userId }).sort({
     date: -1,
   });
-
+console.log(transactions);
   return Response.json(transactions);
 }
 

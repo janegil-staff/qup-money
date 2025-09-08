@@ -8,16 +8,46 @@ import bcrypt from "bcryptjs";
 export const authOptions = {
   providers: [
     CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+        isSignUp: { label: "Sign Up", type: "text" }, // optional fla
+      },
       async authorize(credentials) {
         await connectToDB();
-        const user = await User.findOne({ email: credentials.email });
-        if (!user || !user.password) return null;
 
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-        return isValid ? user : null;
+        const { email, password, isSignUp } = credentials;
+
+        if (isSignUp === "true") {
+          // SIGN UP FLOW
+          const existingUser = await User.findOne({ email });
+          if (existingUser) throw new Error("User already exists");
+
+          const hashedPassword = await bcrypt.hash(password, 10);
+          const newUser = await User.create({
+            email,
+            password: hashedPassword,
+          });
+
+          return {
+            id: newUser._id.toString(),
+            email: newUser.email,
+     
+          };
+        } else {
+          // SIGN IN FLOW
+          const user = await User.findOne({ email });
+          if (!user || !user.password) throw new Error("Invalid credentials");
+
+          const isValid = await bcrypt.compare(password, user.password);
+          if (!isValid) throw new Error("Invalid credentials");
+
+          return {
+            id: user._id.toString(),
+            email: user.email,
+          };
+        }
       },
     }),
     GoogleProvider({
@@ -31,6 +61,7 @@ export const authOptions = {
   ],
   pages: {
     signIn: "/auth/signin",
+    error: "/auth/error",
   },
   session: {
     strategy: "jwt",
@@ -40,11 +71,17 @@ export const authOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.id = user._id || user.id;
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
       return token;
     },
     async session({ session, token }) {
-      if (token?.id) session.user.id = token.id;
+      if (token?.id) {
+        session.user.id = token.id;
+        session.user.email = token.email;
+      }
       return session;
     },
   },

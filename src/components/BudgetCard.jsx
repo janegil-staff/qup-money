@@ -1,43 +1,16 @@
-// BudgetCard.js
-import React from "react";
-import "./style2.css";
-import { FindAndFormateLatestDate } from "@/utils/getLAtestDatAndFormat";
-
-function calculateTotalsByType(data) {
-  return data.reduce((acc, item) => {
-    acc[item.type] = (acc[item.type] || 0) + item.amount;
-    return acc;
-  }, {});
-}
-
-export default function BudgetCard({ transactions }) {
-  const { income, expense } = calculateTotalsByType(transactions);
-  let sum = 0;
-  if (income && !expense) {
-    sum = income;
-  } else if (!income && expense) {
-    sum = expense;
-  } else if (income && expense) {
-    sum = income - expense;
-  }
-
-  const date = FindAndFormateLatestDate(transactions);
-  if (!date) {
-    return (
-      <>
-        <div class="money-card minimal mx-auto mb-20">
-          <div class="card-header">Total Balance</div>
-          <div class="card-amount">0 NOK</div>
-          <div class="card-footer">No transactions</div>
-        </div>
-      </>
-    );
-  }
+export default function BudgetCard({ balance, income, expenses, progress }) {
   return (
-    <div class="money-card minimal mx-auto mb-20">
-      <div class="card-header">Total Balance</div>
-      <div class="card-amount">{sum} NOK</div>
-      <div class="card-footer">Updated: {date}</div>
+    <div className="bg-gray-800 p-4 rounded-lg shadow-md">
+      <h2 className="text-xl font-semibold mb-2">Budget Overview</h2>
+      <p>Income: ${income}</p>
+      <p>Expenses: ${expenses}</p>
+      <p>Balance: ${balance}</p>
+      <div className="mt-2 w-full bg-gray-700 rounded-full h-2">
+        <div
+          className="bg-green-500 h-2 rounded-full"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
     </div>
   );
 }
