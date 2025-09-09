@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast";
 import SessionWrapper from "@/components/SessionWrapper";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import ShowSidebar from "@/components/showSidebar";
+import ShowSidebar from "@/components/ShowSidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +23,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
-  console.log(session);
+
   return (
     <html lang="en">
       <body

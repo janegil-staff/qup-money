@@ -91,21 +91,6 @@ export default function SignUpPage() {
           </div>
         </div>
 
-        <div className="space-y-3">
-          <button
-            onClick={() => signIn("google")}
-            className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white py-2 rounded-md font-semibold transition-colors"
-          >
-            Google
-          </button>
-          <button
-            onClick={() => signIn("github")}
-            className="w-full flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-900 text-white py-2 rounded-md font-semibold transition-colors"
-          >
-            GitHub
-          </button>
-        </div>
-
         <p className="text-center text-sm text-gray-500 mt-6">
           Already have an account?{" "}
           <a href="/auth/signin" className="text-blue-500 hover:underline">
