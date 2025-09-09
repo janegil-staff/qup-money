@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
   budget: {
     type: Number,
   },
-  Currency:{
+  currency:{
     type: String,
     default: "NOK"
   }
