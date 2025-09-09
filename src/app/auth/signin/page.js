@@ -16,9 +16,8 @@ export default function SignInPage() {
       email,
       password,
     });
-
+    router.push("/dashboard");
     if (res.ok) {
-      router.push("/dashboard");
       toast.success("Signin success");
     } else toast.error("Signup failed");
   };
