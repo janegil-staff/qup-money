@@ -1,3 +1,4 @@
+import { Currency } from "lucide-react";
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
@@ -7,7 +8,14 @@ const UserSchema = new mongoose.Schema({
   image: String,
   payday: {
     type: Number,
-    default: 19
+    default: 19,
+  },
+  budget: {
+    type: Number,
+  },
+  Currency:{
+    type: String,
+    default: "NOK"
   }
 });
 

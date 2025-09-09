@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import BudgetCard from "@/components/BudgetCard-old";
 import SalaryProgressBar from "@/components/SalaryProgressBar";
 import { getSalaryCycleFrom19th } from "@/utils/SalaryCycleFrom19th";
-import { FindAndFormateLatestDate } from "@/utils/getLAtestDatAndFormat";
+import toast from "react-hot-toast";
 
 export default function BudgetPage() {
   const [transactions, setTransactions] = useState([]);

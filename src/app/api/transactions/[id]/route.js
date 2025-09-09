@@ -1,12 +1,15 @@
-import { NextResponse } from "next/server";
 import { connectToDB } from "@/lib/db";
 import Transaction from "@/models/Transaction";
+import { NextResponse } from "next/server";
 
-export async function DELETE(request, { params }) {
+export async function DELETE(req, context) {
   await connectToDB();
 
+  console.log("params:", context.params); // 👀 See what’s inside
+
+  const id = context.params?.id;
+
   try {
-    const { id } = params;
     const deleted = await Transaction.findByIdAndDelete(id);
 
     if (!deleted) {
@@ -16,12 +19,12 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    return NextResponse.json(
-      { message: "Transaction deleted" },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Delete error:", error);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete transaction" },
+      { status: 500 }
+    );
   }
 }

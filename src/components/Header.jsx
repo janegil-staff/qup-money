@@ -16,21 +16,6 @@ export default function Header() {
         </h1>
         <p className="text-sm text-gray-400">{today}</p>
       </div>
-      <div className="flex items-center gap-4">
-        {/* Theme toggle placeholder */}
-        <button className="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded">
-          Toggle Theme
-        </button>
-        {/* Sign out button */}
-        <form action="/api/auth/signout" method="POST">
-          <button
-            type="submit"
-            className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded"
-          >
-            Sign Out
-          </button>
-        </form>
-      </div>
     </header>
   );
 }

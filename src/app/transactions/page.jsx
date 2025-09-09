@@ -5,22 +5,13 @@ import { useSession } from "next-auth/react";
 import { Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import TransactionList from "@/components/TransactionList";
 
 export default function Dashboard() {
   const router = useRouter();
   const [transactions, setTransactions] = useState([]);
   const { data: session } = useSession();
   const userId = session?.user?.id;
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-
-  const totalPages = Math.ceil(transactions.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = transactions.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
 
   useEffect(() => {
     fetch("/api/transactions")
@@ -40,77 +31,14 @@ export default function Dashboard() {
     setTransactions([newTx, ...transactions]);
   };
 
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm("Delete this transaction?");
-    if (!confirmed) return;
-    try {
-      const res = await fetch(`/api/transactions/${id}`, {
-        method: "DELETE",
-      });
 
-      if (res.ok) {
-        window.location.reload();
-        toast.success("Transaction deleted");
-      } else {
-        const error = await res.json();
-        toast.error(error.error || "Failed to delete");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong");
-    }
-  };
 
   return (
     <main className="p-6 bg-gray-950 text-white min-h-screen">
       <h1 className="text-3xl font-bold mb-6">Qup Money</h1>
       <TransactionForm onAdd={handleAdd} />
-      <ul className="mt-6 space-y-2">
-        {currentItems.map((tx) => (
-          <li
-            key={tx._id}
-            className="bg-gray-800 p-3 rounded flex justify-between"
-          >
-            <span>
-              {tx.title} ({tx.category})
-            </span>
-            <span
-              className={
-                tx.type === "income" ? "text-green-400" : "text-red-400"
-              }
-            >
-              {tx.type === "income" ? "+" : "-"}${tx.amount.toFixed(2)}
-            </span>
-            <button
-              onClick={() => handleDelete(tx._id)}
-              className="text-[#ef5350] hover:text-red-400"
-              title="Delete"
-            >
-              <Trash2 size={18} />
-            </button>
-          </li>
-        ))}
-      </ul>
 
-      <div className="flex justify-between items-center mt-4 text-sm text-[#aaa]">
-        <button
-          onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-          disabled={currentPage === 1}
-          className="px-3 py-1 bg-[#2a2a2a] rounded hover:bg-[#3a3a3a] disabled:opacity-30"
-        >
-          ← Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-          disabled={currentPage === totalPages}
-          className="px-3 py-1 bg-[#2a2a2a] rounded hover:bg-[#3a3a3a] disabled:opacity-30"
-        >
-          Next →
-        </button>
-      </div>
+      <TransactionList transactions={transactions} />
     </main>
   );
 }
