@@ -22,7 +22,7 @@ export default function SignInPage() {
     }
 
     if (res.ok) {
-      window.location.replace("/dashboard");
+     router.push('/dashboard');
       toast.success("Signin success");
     } else toast.error("Signup failed");
   };
