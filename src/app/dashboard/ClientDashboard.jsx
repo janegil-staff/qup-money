@@ -14,6 +14,7 @@ export default function ClientDashboard({
   payday,
   budget,
 }) {
+  console.log(payday);
   return (
     <div className="bg-gray-900 text-gray-100 min-h-screen p-6">
       <Header />

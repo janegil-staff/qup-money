@@ -15,7 +15,7 @@ export async function GET(request) {
   const transactions = await Transaction.find({ userId }).sort({
     date: -1,
   });
-console.log(transactions);
+
   return Response.json(transactions);
 }
 

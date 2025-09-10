@@ -25,19 +25,19 @@ export default function BudgetCardOld({ transactions }) {
   if (!date) {
     return (
       <>
-        <div class="money-card minimal mx-auto mb-20">
-          <div class="card-header">Total Balance</div>
-          <div class="card-amount">0 NOK</div>
-          <div class="card-footer">No transactions</div>
+        <div className="money-card minimal mx-auto mb-20">
+          <div className="card-header">Total Balance</div>
+          <div className="card-amount">0 NOK</div>
+          <div className="card-footer">No transactions</div>
         </div>
       </>
     );
   }
   return (
-    <div class="money-card minimal mx-auto mb-20">
-      <div class="card-header">Total Balance</div>
-      <div class="card-amount">{sum.toFixed(2)} NOK</div>
-      <div class="card-footer">Updated: {date}</div>
+    <div className="money-card minimal mx-auto mb-20">
+      <div className="card-header">Total Balance</div>
+      <div className="card-amount">{sum.toFixed(2)} NOK</div>
+      <div className="card-footer">Updated: {date}</div>
     </div>
   );
 }

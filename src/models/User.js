@@ -8,15 +8,16 @@ const UserSchema = new mongoose.Schema({
   image: String,
   payday: {
     type: Number,
-    default: 19,
+    default: 19
   },
   budget: {
     type: Number,
   },
-  currency:{
+  currency: {
     type: String,
-    default: "NOK"
-  }
+    default: "NOK",
+  },
+  accessToken: String,
 });
 
 const User = mongoose.models?.User || mongoose.model("User", UserSchema);

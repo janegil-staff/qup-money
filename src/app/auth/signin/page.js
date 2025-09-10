@@ -12,12 +12,17 @@ export default function SignInPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await signIn("credentials", {
-      redirect: false,
       email,
       password,
+      redirect: false,
     });
-    router.push("/dashboard");
+
+    if (res.error) {
+      console.error("Login failed:", res.error);
+    }
+
     if (res.ok) {
+      window.location.replace("/dashboard");
       toast.success("Signin success");
     } else toast.error("Signup failed");
   };

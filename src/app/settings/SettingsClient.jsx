@@ -1,12 +1,14 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function SettingsClient({ user }) {
   const [payday, setPayday] = useState(user.payday || 19);
   const [budget, setBudget] = useState(user.budget || 0);
-  const [currency, setCurrency] = useState(user.currency || "USD");
+  const [currency, setCurrency] = useState(user.currency || "NOK");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSave = async () => {
     setLoading(true);
@@ -16,7 +18,8 @@ export default function SettingsClient({ user }) {
       headers: { "Content-Type": "application/json" },
     });
     setLoading(false);
-    toast.success("Updated settings")
+    toast.success("Updated settings");
+    window.location.reload();
   };
 
   return (
@@ -25,20 +28,22 @@ export default function SettingsClient({ user }) {
 
       <form className="space-y-6 max-w-xl">
         {/* Payday Field */}
-        <div>
-          <label className="block mb-1 font-semibold">Payday</label>
-          <input
-            type="number"
-            min="1"
-            max="31"
-            value={payday}
-            onChange={(e) => setPayday(Number(e.target.value))}
-            className="w-full p-2 bg-gray-800 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-          <p className="text-sm text-gray-400 mt-1">
-            Day of the month you get paid
-          </p>
-        </div>
+        <label htmlFor="payday" className="block font-medium mb-2">
+          Select your payday
+        </label>
+        <select
+          id="payday"
+          name="payday"
+          value={payday}
+          onChange={(e) => setPayday(Number(e.target.value))}
+          className="border rounded px-3 py-2 w-full"
+        >
+          {[...Array(30)].map((_, i) => (
+            <option key={i + 1} value={i + 1}>
+              {i + 1}
+            </option>
+          ))}
+        </select>
 
         {/* Budget Field */}
         <div>

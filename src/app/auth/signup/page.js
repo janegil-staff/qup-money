@@ -26,10 +26,10 @@ export default function SignUpPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
-     router.push("/dashboard");
+
     if (res.ok) {
       toast.success("Sign up scucsess");
- 
+      window.location.reload();
     } else {
       const data = await res.json();
       setError(data.error || "Signup failed");

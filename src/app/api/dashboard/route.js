@@ -4,9 +4,8 @@ import { connectToDB } from "@/lib/db";
 import Transaction from "@/models/Transaction";
 
 export default async function handler(req, res) {
-
-    console.log("ENTERING");
   const session = await getServerSession(req, res, authOptions);
+
 
   if (!session || !session.user?.email) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -16,7 +15,7 @@ export default async function handler(req, res) {
 
   try {
     const userId = session.user.id;
-    console.log("USER ID --> ", session.user);
+
     const transactions = await Transaction.find({ userId }).sort({
       date: -1,
     });

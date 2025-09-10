@@ -7,13 +7,17 @@ export function getCurrentSalaryCycle(payday) {
   let cycleStartDate, cycleEndDate;
 
   if (day < payday) {
-    // We're in the current cycle
-    cycleStartDate = new Date(year, month - 1, payday);
+    // Start date is last month's payday
+    const prevMonth = month === 0 ? 11 : month - 1;
+    const startYear = month === 0 ? year - 1 : year;
+    cycleStartDate = new Date(startYear, prevMonth, payday);
     cycleEndDate = new Date(year, month, payday);
   } else {
-    // We're in the next cycle
+    // Start date is this month's payday
+    const nextMonth = month === 11 ? 0 : month + 1;
+    const endYear = month === 11 ? year + 1 : year;
     cycleStartDate = new Date(year, month, payday);
-    cycleEndDate = new Date(year, month + 1, payday);
+    cycleEndDate = new Date(endYear, nextMonth, payday);
   }
 
   return {

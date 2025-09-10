@@ -1,4 +1,4 @@
-export function getSalaryCycleFrom19th() {
+export function getSalaryCycleFrom19th(payday = 19) {
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
@@ -7,7 +7,7 @@ export function getSalaryCycleFrom19th() {
   let cycleStartYear = year;
   let cycleStartMonth = month;
 
-  if (day < 19) {
+  if (day < payday) {
     cycleStartMonth -= 1;
     if (cycleStartMonth < 0) {
       cycleStartMonth = 11;
@@ -22,8 +22,13 @@ export function getSalaryCycleFrom19th() {
     cycleEndYear += 1;
   }
 
-  const startDate = new Date(cycleStartYear, cycleStartMonth, 19);
-  const endDate = new Date(cycleEndYear, cycleEndMonth, 19);
+  const startDate = new Date(Date.UTC(cycleStartYear, cycleStartMonth, payday));
+  const endDate = new Date(Date.UTC(cycleEndYear, cycleEndMonth, payday));
 
-  return { startDate, endDate };
+  return {
+    startDate,
+    endDate,
+    startISO: startDate.toISOString(),
+    endISO: endDate.toISOString(),
+  };
 }

@@ -5,6 +5,7 @@ import SessionWrapper from "@/components/SessionWrapper";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import ShowSidebar from "@/components/ShowSidebar";
+import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +19,8 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Take Control of Your Money.",
-  description: "Qup Money is your personal expense tracker, built for clarity, speed, and peace of mind. From payday to payday, we help you stay on top of your budget — effortlessly.",
+  description:
+    "Qup Money is your personal expense tracker, built for clarity, speed, and peace of mind. From payday to payday, we help you stay on top of your budget — effortlessly.",
 };
 
 export default async function RootLayout({ children }) {
@@ -30,13 +32,14 @@ export default async function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionWrapper>
-          <div className="min-h-screen bg-gray-900 text-white flex flex-col md:flex-row">
-            <ShowSidebar />
+          <AuthProvider>
+            <div className="min-h-screen bg-gray-900 text-white flex flex-col md:flex-row">
+              <ShowSidebar />
 
-            <main className="flex-1 p-6">{children}</main>
-          </div>
+              <main className="flex-1 p-6">{children}</main>
+            </div>
+          </AuthProvider>
         </SessionWrapper>
-
         <Toaster />
       </body>
     </html>

@@ -6,6 +6,7 @@ import { getBalance } from "@/utils/CalculateBaclance";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
+
   if (!session)
     return <div className="text-center text-white p-10">Please sign in</div>;
 
@@ -24,7 +25,7 @@ export default async function DashboardPage() {
       progress={progress}
       transactionCount={recentTransactions.length}
       transactions={recentTransactions}
-      payday={session.user.payday || 19}
+      payday={session.user.payday}
       budget={budget}
     />
   );
