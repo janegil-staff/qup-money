@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import User from '@/models/User'; // Your Mongoose User model
-import connectToDB from '@/lib/db'; // DB connection helper
+import {connectToDB} from '@/lib/db'; // DB connection helper
 
 
 export async function GET(req, { params }) {
